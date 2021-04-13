@@ -83,6 +83,8 @@ function getExperimentRelatedFiles(experimentName) {
     let fileList = [];
     let formats = [];
     let experimentId = ExperimentModel.experimentList[experimentName];
+    let parsedExperimentId = experimentId.replace('"', '').split('-');
+    let capitalizeExperimentName = parsedExperimentId[0].replace(/^\w/, (c) => c.toUpperCase());
 
     // prepare formats to search
     formats.push(experimentName);
@@ -90,7 +92,7 @@ function getExperimentRelatedFiles(experimentName) {
     formats.push(experimentId);
     ExperimentModel.currentExperiment['[EXP_ID]'] = experimentId;
     formats.push(`isBay${experimentId}`);
-    ExperimentModel.currentExperiment['[EXP_ISBAY]'] = `isBay${experimentId}`;
+    ExperimentModel.currentExperiment['[EXP_ISBAY]'] = `is${capitalizeExperimentName}${parsedExperimentId[1]}`;
 
     if (Object.keys(ExperimentModel.fileIndex).length === 0) {
         return fileList;
