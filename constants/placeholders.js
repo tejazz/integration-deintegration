@@ -1,7 +1,7 @@
 const placeholders = [
     '[EXP_NAME]',
     '[EXP_ID]',
-    '[EXP_ISBAY]'
+    '[IS_EXP]'
 ];
 
 module.exports = placeholders;

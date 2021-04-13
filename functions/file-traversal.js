@@ -92,7 +92,7 @@ function getExperimentRelatedFiles(experimentName) {
     formats.push(experimentId);
     ExperimentModel.currentExperiment['[EXP_ID]'] = experimentId;
     formats.push(`isBay${experimentId}`);
-    ExperimentModel.currentExperiment['[EXP_ISBAY]'] = `is${capitalizeExperimentName}${parsedExperimentId[1]}`;
+    ExperimentModel.currentExperiment['[IS_EXP]'] = `is${capitalizeExperimentName}${parsedExperimentId[1]}`;
 
     if (Object.keys(ExperimentModel.fileIndex).length === 0) {
         return fileList;

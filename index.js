@@ -8,7 +8,7 @@ let operation = 'integration';      // ['integration', 'deintegration']
 
 getExperimentList(directoryPath, operation, (operation) => {
     // select experiment
-    let sampleExperiment = Object.keys(experimentModel.experimentList)[0];
+    let sampleExperiment = 'CAPTCHA_FAKE_CONTROL_SWITCH';
 
     // find affected files
     let experimentFileList = getExperimentRelatedFiles(sampleExperiment);
