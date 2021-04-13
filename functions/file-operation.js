@@ -18,7 +18,6 @@ function modifyRelatedFiles(fileList, patterns, operation) {
             let regexPattern = new RegExp(pattern, 'gi');
 
             if (data.match(regexPattern)) {
-                console.log(regexPattern, patternElement);
                 evaluateFileChanges(data, regexPattern, patternElement.scenario, file, operation);
             }
         });

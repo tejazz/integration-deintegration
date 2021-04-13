@@ -4,6 +4,10 @@ const patterns = [
         scenario: 'ExpId'
     },
     {
+        expression: `expEval.Register\\(\\(.*ExpId.[EXP_NAME].*`,
+        scenario: 'ExpId'
+    },
+    {
         expression: `experimentManager.IsBVariant(ExpId.[EXP_NAME])`,
         scenario: 'Single'
     },
