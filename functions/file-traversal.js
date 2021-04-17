@@ -3,60 +3,60 @@ const fs = require('graceful-fs');
 const ExperimentModel = require('../models/experiment-model');
 
 function getExperimentList(filePath, operation, callback) {
-    var finder = require('findit')(filePath);
-    let startTime = Date.now();
+    // var finder = require('findit')(filePath);
+    // let startTime = Date.now();
 
-    let fileIndex = {};
-    let expFiles = [];
+    // let fileIndex = {};
+    // let expFiles = [];
 
-    finder.on('directory', function (dir, stat, stop) {
-        var base = path.basename(dir);
-        if (base === '.git' || base === 'node_modules') stop()
-        else {
-            fileIndex[dir] = 'dir';
-        }
-    });
+    // finder.on('directory', function (dir, stat, stop) {
+    //     var base = path.basename(dir);
+    //     if (base === '.git' || base === 'node_modules') stop()
+    //     else {
+    //         fileIndex[dir] = 'dir';
+    //     }
+    // });
 
-    finder.on('file', function (file, stat) {
-        fileIndex[file] = 'file';
+    // finder.on('file', function (file, stat) {
+    //     fileIndex[file] = 'file';
 
-        if (file.toLowerCase().includes('expid')) {
-            expFiles.push(file);
-        }
-    });
+    //     if (file.toLowerCase().includes('expid')) {
+    //         expFiles.push(file);
+    //     }
+    // });
 
-    finder.on('link', function (link, stat) {
-        fileIndex[link] = 'link';
-    });
+    // finder.on('link', function (link, stat) {
+    //     fileIndex[link] = 'link';
+    // });
 
-    finder.on('end', () => {
-        console.log('Time taken: [File Traversal] ', (Date.now() - startTime) / 1000 + 's');
+    // finder.on('end', () => {
+    //     console.log('Time taken: [File Traversal] ', (Date.now() - startTime) / 1000 + 's');
 
-        let fileCount = 0;
-        let dirCount = 0;
-        let linkCount = 0;
+    //     let fileCount = 0;
+    //     let dirCount = 0;
+    //     let linkCount = 0;
 
-        Object.keys(fileIndex).map((el) => {
-            switch (fileIndex[el]) {
-                case 'file': fileCount++;
-                    break;
-                case 'dir': dirCount++;
-                    break;
-                case 'link': linkCount++;
-                    break;
-            }
-        })
+    //     Object.keys(fileIndex).map((el) => {
+    //         switch (fileIndex[el]) {
+    //             case 'file': fileCount++;
+    //                 break;
+    //             case 'dir': dirCount++;
+    //                 break;
+    //             case 'link': linkCount++;
+    //                 break;
+    //         }
+    //     })
 
-        console.log('Directories Count: ', dirCount);
-        console.log('Files Count: ', fileCount);
-        console.log('Links Count: ', linkCount);
-        console.log('Total Experiment Files: ', expFiles.length);
+    //     console.log('Directories Count: ', dirCount);
+    //     console.log('Files Count: ', fileCount);
+    //     console.log('Links Count: ', linkCount);
+    //     console.log('Total Experiment Files: ', expFiles.length);
 
-        ExperimentModel.experimentList = extractExperimentList(expFiles);
-        ExperimentModel.fileIndex = fileIndex;
+    //     ExperimentModel.experimentList = extractExperimentList(expFiles);
+    //     ExperimentModel.fileIndex = fileIndex;
 
         callback(operation);
-    });
+    // });
 }
 
 function extractExperimentList(expFiles) {

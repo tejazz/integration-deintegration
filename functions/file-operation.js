@@ -5,6 +5,13 @@ const fs = require('graceful-fs');
 function modifyRelatedFiles(fileList, patterns, operation) {
     let { currentExperiment } = ExperimentModel;
 
+    // to remove
+    currentExperiment = {
+        '[EXP_NAME]': 'PRERENDER_HIDE_HOTEL_MAP',
+        '[EXP_ID]': '"BAY-9507-KS"',
+        '[IS_EXP]': 'isBay9507'
+    };
+
     console.log(fileList);
 
     fileList.map((file) => {
@@ -62,7 +69,7 @@ function evaluateFileChanges(data, pattern, scenario, filePath, operation) {
                 : data.replace(data.substring(matchIndex, firstConditionIndex + 2), '').replace(data.substring(secondConditionIndex - 1, lastIndex), '');
 
             break;
-        case 'AndExperimentCheck':
+        case 'AndExperiment':
             firstConditionIndex = data.indexOf('&&', matchIndex);
             patternMatch = data.match(pattern)[0];
 
@@ -71,7 +78,7 @@ function evaluateFileChanges(data, pattern, scenario, filePath, operation) {
                 : data.replace(patternMatch.substring(patternMatch.indexOf('&&')), '');
 
             break;
-        case 'InvertAndExperimentCheck':
+        case 'InvertAndExperiment':
             firstConditionIndex = data.indexOf('&&', matchIndex);
             patternMatch = data.match(pattern)[0];
 
@@ -80,10 +87,7 @@ function evaluateFileChanges(data, pattern, scenario, filePath, operation) {
                 : data.replace(pattern, `= ${false}`);
 
             break;
-        case 'MockExperimentManager':
-            extractedExperimentId = pattern.slice(pattern.indexOf(`ExpId.`));
-
-            data = data.replace(extractedExperimentId, '');
+        case 'AdditionalExperiment':
         case 'Single':
         default:
             data = data.replace(pattern, '');

@@ -8,6 +8,10 @@ const patterns = [
         scenario: 'ExperimentId'
     },
     {
+        expression: `\\,\\s*ExpId.[EXP_NAME]`,
+        scenario: 'AdditionalExperiment'
+    },
+    {
         expression: `experimentManager.IsBVariant(ExpId.[EXP_NAME])`,
         scenario: 'Single'
     },
@@ -20,17 +24,13 @@ const patterns = [
         scenario: 'InvertTernary'
     },
     {
-        expression: `\=(.*)(\\n+\\s+)?\\&+\\s+experimentManager.IsBVariant\\(ExpId.[EXP_NAME]\\)`,
-        scenario: 'AndExperimentCheck'
+        expression: `=\n*?(.*)?(\\n*\\s*)?(.*)?&+(\\n+\\s+)?\\s+(_)?experimentManager.IsBVariant\\(ExpId.[EXP_NAME]\\)`,
+        scenario: 'AndExperiment'
     },
     {
-        expression: `\=(.*)(\\n+\\s+)?\\&+\\s+\\!experimentManager.IsBVariant\\(ExpId.[EXP_NAME]\\)`,
-        scenario: 'InvertAndExperimentCheck'
-    },
-    // {
-    //     expression: `Given.MockExperimentManager\\(\\).WithBVariants\\((.*+)?(\\n+)?(.*)?ExpId.[EXP_NAME]`,
-    //     scenario: 'MockExperimentManager'
-    // }
+        expression: `=\n*?(.*)?(\\n*\\s*)?(.*)?&+(\\n+\\s+)?\\s+\\!(_)?experimentManager.IsBVariant\\(ExpId.[EXP_NAME]\\)`,
+        scenario: 'InvertAndExperiment'
+    }
 ];
 
 module.exports = patterns;
