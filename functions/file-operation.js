@@ -6,13 +6,11 @@ function modifyRelatedFiles(fileList, patterns, operation) {
     let { currentExperiment } = ExperimentModel;
 
     // to remove
-    currentExperiment = {
-        '[EXP_NAME]': 'PRERENDER_HIDE_HOTEL_MAP',
-        '[EXP_ID]': '"BAY-9507-KS"',
-        '[IS_EXP]': 'isBay9507'
-    };
-
-    console.log(fileList);
+    // currentExperiment = {
+    //     '[EXP_NAME]': 'DEINDEX_LANDMARK_AND_LANDMARKACCOM',
+    //     '[EXP_ID]': 'BAY-8971',
+    //     '[IS_EXP]': 'isBay8971'
+    // };
 
     fileList.map((file) => {
         let data = fs.readFileSync(file).toString();
@@ -23,6 +21,8 @@ function modifyRelatedFiles(fileList, patterns, operation) {
             pattern = preparePattern(pattern, currentExperiment);
 
             let regexPattern = new RegExp(pattern, 'gi');
+
+            console.log(regexPattern);
 
             if (data.match(regexPattern)) {
                 evaluateFileChanges(data, regexPattern, patternElement.scenario, file, operation);

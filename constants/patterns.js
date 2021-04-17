@@ -1,6 +1,6 @@
 const patterns = [
     {
-        expression: `(\\w+\\s+){3}[EXP_NAME]\\s=\\s[EXP_ID];`,
+        expression: `(\\w+\\s+){3}[EXP_NAME](\\w+)?\\s=\\s"[EXP_ID]-?(\\w+)?";`,
         scenario: 'ExperimentId'
     },
     {
@@ -30,6 +30,10 @@ const patterns = [
     {
         expression: `=\n*?(.*)?(\\n*\\s*)?(.*)?&+(\\n+\\s+)?\\s+\\!(_)?experimentManager.IsBVariant\\(ExpId.[EXP_NAME]\\)`,
         scenario: 'InvertAndExperiment'
+    }, 
+    {
+        expression: `&+(\\n+\\s+)?SeoUnifiedExperimentDomain\.IsExperimentEnabledForUserBotOrPreRender\\(((\\n+\\s+)?(.*)?)+ExpId.[EXP_NAME]`,
+        scenario: 'AndSeoUnifiedExperiment'
     }
 ];
 

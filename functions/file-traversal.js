@@ -2,7 +2,9 @@ var path = require('path');
 const fs = require('graceful-fs');
 const ExperimentModel = require('../models/experiment-model');
 
-function getExperimentList(filePath, operation, callback) {
+function getExperimentList(filePath, operation, enableTraversal, callback) {
+    if (!enableTraversal) return callback(operation);
+
     var finder = require('findit')(filePath);
     let startTime = Date.now();
 
@@ -70,15 +72,23 @@ function extractExperimentList(expFiles) {
             let f2 = data.indexOf(';', f1);
             let substringArr = data.slice(f1, f2).split(' ');
             let experimentName = substringArr[3];
-            let experimentId = substringArr[5];
+            let experimentId = substringArr[5] ? substringArr[5].replace(/"/g, '') : substringArr[5];
+            console.log(experimentId);
 
             // Club SEO User and Bot Experiments => One Experiment
-            if (experimentName.slice(-2) === '_U' || experimentName.slice(-2) === '_B') {
+            if ((experimentName && experimentId) && (experimentName.slice(-2) === '_U' || experimentName.slice(-2) === '_B')) {
                 experimentName = experimentName.slice(0, experimentName.length - 2);
                 experimentId = experimentId.replace('-U', '').replace('-B', '');
             }
 
-            expData[experimentName] = experimentId;
+            // Modify for KillSwitch
+            if ((experimentName && experimentId) && (experimentName.slice(-3) === '_KS' || experimentId.slice(-3) === '-KS')) {
+                experimentName = experimentName.slice(-3) === '_KS' ? experimentName.replace('_KS', '') : experimentName;
+                experimentId = experimentId.slice(-3) === '-KS' ? experimentId.replace('-KS', '') : experimentId;
+            }
+
+            if (experimentId) expData[experimentName] = experimentId;
+        
             data = data.replace(data.slice(f1, f2 + 1), '');
         }
     });
@@ -92,7 +102,8 @@ function getExperimentRelatedFiles(experimentName) {
     let fileList = [];
     let formats = [];
     let experimentId = ExperimentModel.experimentList[experimentName];
-    let parsedExperimentId = experimentId.replace('"', '').split('-');
+    console.log(ExperimentModel.experimentList);
+    let parsedExperimentId = experimentId.split('-');
     let capitalizeExperimentName = parsedExperimentId[0].replace(/^\w/, (c) => c.toUpperCase());
 
     // prepare formats to search
