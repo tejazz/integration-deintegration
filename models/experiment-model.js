@@ -4,7 +4,7 @@ const experimentModel = {
     currentExperiment: {
         '[EXP_NAME]': '',
         '[EXP_ID]': '',
-        '[EXP_ISBAY]': '',
+        '[IS_EXP]': '',
     },
 };
 
