@@ -91,7 +91,7 @@ function getExperimentRelatedFiles(experimentName) {
     ExperimentModel.currentExperiment['[EXP_NAME]'] = experimentName;
     formats.push(experimentId);
     ExperimentModel.currentExperiment['[EXP_ID]'] = experimentId;
-    formats.push(`isBay${experimentId}`);
+    formats.push(`is${capitalizeExperimentName}${parsedExperimentId[1]}`);
     ExperimentModel.currentExperiment['[IS_EXP]'] = `is${capitalizeExperimentName}${parsedExperimentId[1]}`;
 
     if (Object.keys(ExperimentModel.fileIndex).length === 0) {
@@ -106,7 +106,9 @@ function getExperimentRelatedFiles(experimentName) {
             let data = fs.readFileSync(file).toString();
             
             formats.map((format) => {
-                data.includes(format) ? fileList.push(file) : null;
+                if (data.toLowerCase().includes(format.toLowerCase())) {
+                    fileList.findIndex((el) => el === file) === -1 ? fileList.push(file) : null;  
+                }
             });
         } 
     });
