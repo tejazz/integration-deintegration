@@ -1,6 +1,11 @@
 const patterns = [
+    // still needs proof testing
     {
-        expression: `(\\w+\\s+){3}[EXP_NAME]\\s=\\s[EXP_ID];`,
+        expression: `&+(\\s+)?(\\n+\\s+)?SeoUnifiedExperimentDomain.IsExperimentEnabledForUserBotOrPreRender\\([\\s\\S]*?ExpId.[EXP_NAME]`,
+        scenario: 'AndSeoUnifiedExperiment'
+    },
+    {
+        expression: `(\\w+\\s+){3}[EXP_NAME](\\w+)?\\s=\\s"[EXP_ID]-?(\\w+)?";`,
         scenario: 'ExperimentId'
     },
     {
@@ -30,7 +35,7 @@ const patterns = [
     {
         expression: `=\n*?(.*)?(\\n*\\s*)?(.*)?&+(\\n+\\s+)?\\s+\\!(_)?experimentManager.IsBVariant\\(ExpId.[EXP_NAME]\\)`,
         scenario: 'InvertAndExperiment'
-    }
+    }, 
 ];
 
 module.exports = patterns;
