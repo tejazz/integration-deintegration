@@ -6,11 +6,11 @@ function modifyRelatedFiles(fileList, patterns, operation) {
     let { currentExperiment } = ExperimentModel;
 
     // to remove
-    // currentExperiment = {
-    //     '[EXP_NAME]': 'DEINDEX_LANDMARK_AND_LANDMARKACCOM',
-    //     '[EXP_ID]': 'BAY-8971',
-    //     '[IS_EXP]': 'isBay8971'
-    // };
+    currentExperiment = {
+        '[EXP_NAME]': 'DEINDEX_LANDMARK_AND_LANDMARKACCOM',
+        '[EXP_ID]': 'BAY-8971',
+        '[IS_EXP]': 'isBay8971'
+    };
 
     fileList.map((file) => {
         let data = fs.readFileSync(file).toString();
@@ -20,9 +20,9 @@ function modifyRelatedFiles(fileList, patterns, operation) {
 
             pattern = preparePattern(pattern, currentExperiment);
 
-            let regexPattern = new RegExp(pattern, 'gi');
-
-            console.log(regexPattern);
+            let regexPattern = new RegExp(pattern, 'gim');
+            
+            console.log(data.match(regexPattern));
 
             if (data.match(regexPattern)) {
                 evaluateFileChanges(data, regexPattern, patternElement.scenario, file, operation);
@@ -85,6 +85,14 @@ function evaluateFileChanges(data, pattern, scenario, filePath, operation) {
             data = operation === 'deintegration'
                 ? data.replace(patternMatch.substring(patternMatch.indexOf('&&')), '')
                 : data.replace(pattern, `= ${false}`);
+
+            break;
+        case 'AndSeoUnifiedExperiment': 
+            firstConditionIndex = data.indexOf(';', matchIndex);
+
+            data = operation === 'integration'
+                ? data.replace(data.substring(matchIndex, firstConditionIndex - 1), '')
+                : data.replace(data.substring(data.lastIndexOf(' = ', matchIndex), firstConditionIndex), ` = false`);
 
             break;
         case 'AdditionalExperiment':

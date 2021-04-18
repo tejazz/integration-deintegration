@@ -73,7 +73,6 @@ function extractExperimentList(expFiles) {
             let substringArr = data.slice(f1, f2).split(' ');
             let experimentName = substringArr[3];
             let experimentId = substringArr[5] ? substringArr[5].replace(/"/g, '') : substringArr[5];
-            console.log(experimentId);
 
             // Club SEO User and Bot Experiments => One Experiment
             if ((experimentName && experimentId) && (experimentName.slice(-2) === '_U' || experimentName.slice(-2) === '_B')) {
@@ -88,7 +87,7 @@ function extractExperimentList(expFiles) {
             }
 
             if (experimentId) expData[experimentName] = experimentId;
-        
+
             data = data.replace(data.slice(f1, f2 + 1), '');
         }
     });
@@ -102,7 +101,6 @@ function getExperimentRelatedFiles(experimentName) {
     let fileList = [];
     let formats = [];
     let experimentId = ExperimentModel.experimentList[experimentName];
-    console.log(ExperimentModel.experimentList);
     let parsedExperimentId = experimentId.split('-');
     let capitalizeExperimentName = parsedExperimentId[0].replace(/^\w/, (c) => c.toUpperCase());
 
@@ -124,16 +122,16 @@ function getExperimentRelatedFiles(experimentName) {
 
         if (isFile && isFileFormatValid) {
             let data = fs.readFileSync(file).toString();
-            
+
             formats.map((format) => {
                 if (data.toLowerCase().includes(format.toLowerCase())) {
-                    fileList.findIndex((el) => el === file) === -1 ? fileList.push(file) : null;  
+                    fileList.findIndex((el) => el === file) === -1 ? fileList.push(file) : null;
                 }
             });
-        } 
+        }
     });
 
-    console.log(`Time taken: [Experiment Related Files] ${(Date.now() - startTime)/1000}s`);
+    console.log(`Time taken: [Experiment Related Files] ${(Date.now() - startTime) / 1000}s`);
 
     return fileList;
 }

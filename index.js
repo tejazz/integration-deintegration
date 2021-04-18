@@ -5,14 +5,14 @@ const experimentModel = require('./models/experiment-model');
 
 let directoryPath = '../../codebase/agoda-com-dictator';
 let operation = 'deintegration';      // ['integration', 'deintegration']
-let enableTraversal = true;
+let enableTraversal = false;
 
 getExperimentList(directoryPath, operation, enableTraversal, (operation) => {
     // select experiment
     let sampleExperiment = 'DEINDEX_LANDMARK_AND_LANDMARKACCOM';
 
     // find affected files
-    let experimentFileList = getExperimentRelatedFiles(sampleExperiment);
+    // let experimentFileList = getExperimentRelatedFiles(sampleExperiment);
     // console.log(experimentFileList);
 
     let experimentFileList = [
